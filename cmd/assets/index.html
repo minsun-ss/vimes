@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Real-time Updates</title>
+    </head>
+    <body>
+        <h1>Logs</h1>
+        <div id="updates"></div>
+
+        <script>
+            const updatesDiv = document.getElementById("updates");
+            const evtSource = new EventSource("/events");
+            const maxEvents = 10;
+
+            evtSource.onmessage = function (event) {
+                const newElement = document.createElement("p");
+                newElement.textContent = event.data;
+                updatesDiv.appendChild(newElement);
+
+                // Remove old elements if we exceed max
+                while (updatesDiv.children.length > maxEvents) {
+                    updatesDiv.removeChild(updatesDiv.firstChild);
+                }
+            };
+
+            evtSource.onerror = function (err) {
+                console.error("EventSource failed:", err);
+            };
+        </script>
+    </body>
+</html>
