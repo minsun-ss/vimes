@@ -1,11 +1,22 @@
+# Database Setup
+
+In order to set up the database, run the logs.sql query. Hopefully migrations are not needed at this point. You can go about this a couple of ways:
+
+- if you have clickhouse-client CLI, run the setup.sh in /clickhouse folder; or
+- run logs.sql inside a SQL client of your choice (presuming you have the correct privileges)
+
+
 # Experimenting with SSE
 
 # TODO
 - setup webex
-- setup webook
+- setup and test webhook
 - test sending requests to grafana to display
 - set up how to check out events from
 - handle webhook post events
+- viper configuration
+
+
 
 # handling post events
 - secured with hmac
