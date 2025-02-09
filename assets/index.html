@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.10/htmx.min.js"></script>
+        <link rel="stylesheet" href="static/vimes.css" type="text/css" />
+
+        <title>Real-time Updates</title>
+    </head>
+    <body>
+        <div class="sidebar">
+            <div class="sidebar-trigger"></div>
+            <nav>
+                <a href="#" class="nav-item">Home</a>
+                <a href="#" class="nav-item">About</a>
+                <a href="#" class="nav-item">Services</a>
+                <a href="#" class="nav-item">Contact</a>
+            </nav>
+        </div>
+        <div class="content">
+            <h1>Logs</h1>
+            <div class="logs" id="updates"></div>
+
+            <script>
+                const updatesDiv = document.getElementById("updates");
+                const evtSource = new EventSource("/events");
+                const maxEvents = 10;
+
+                evtSource.onmessage = function (event) {
+                    const newElement = document.createElement("p");
+                    newElement.textContent = event.data;
+                    updatesDiv.appendChild(newElement);
+
+                    // Remove old elements if we exceed max
+                    while (updatesDiv.children.length > maxEvents) {
+                        updatesDiv.removeChild(updatesDiv.firstChild);
+                    }
+                };
+
+                evtSource.onerror = function (err) {
+                    console.error("EventSource failed:", err);
+                };
+            </script>
+        </div>
+    </body>
+</html>
